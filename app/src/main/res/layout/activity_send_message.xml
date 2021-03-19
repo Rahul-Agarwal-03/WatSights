@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SendMessageActivity">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/app_name"
+        app:titleEnabled="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" />
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:contentPadding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_whatsapp_48" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tired of saving numbers to your Contacts for sharing just a line of text? We have a solution for that. Use our direct message feature to directly send message to a number without saving it in your phone" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="8dp"
+                android:background="?android:attr/listDivider" />
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+               android:id="@+id/ccp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               app:ccp_showFullName="false"
+               app:ccp_defaultNameCode="IN"
+               android:layout_centerVertical="true"
+               app:ccp_textColor="?attr/colorControlNormal"
+               app:ccp_setCountryByTimeZone="true"
+               app:ccp_enablePhoneAutoFormatter="true"
+               app:ccp_showFlag="false"/>
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:id="@+id/mobNo1"
+               style="@style/TextInputLayoutStyle"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:elevation="10dp"
+               android:layout_centerVertical="true"
+               android:layout_toEndOf="@id/ccp"
+               android:layout_alignParentEnd="true"
+               app:errorTextAppearance="@style/subtitle1"
+               app:hintTextAppearance="@style/body1">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/mobNo"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:inputType="number|phone"
+                   android:textAppearance="@style/body1"
+                   android:textCursorDrawable="@drawable/color_cursor"
+                   android:textStyle="bold" />
+           </com.google.android.material.textfield.TextInputLayout>
+       </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/body1"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="Message (Optional)"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/message1"
+                style="@style/TextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/ccp"
+                android:layout_alignParentEnd="true"
+                app:errorTextAppearance="@style/subtitle1"
+                app:hintTextAppearance="@style/body1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:inputType="text|textMultiLine|textLongMessage"
+                    android:textAppearance="@style/body1"
+                    android:lines="2"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/discard"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:text="DISCARD"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            app:strokeColor="@color/colorAccent" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:text="SEND MESSAGE" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
