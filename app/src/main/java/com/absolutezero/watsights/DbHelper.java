@@ -134,6 +134,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM MEMBERS WHERE GROUP_ID=? AND PERSON_ID=?", new String[]{String.valueOf(groupId), String.valueOf(personId)});
         if (cursor != null && cursor.moveToFirst()) {
+            
             return true;
         }
         return false;
@@ -178,6 +179,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     cursor.getLong(cursor.getColumnIndexOrThrow("PERSON_ID")),
                     cursor.getString(cursor.getColumnIndexOrThrow("TIMESTAMP")));
         }
+        
         return null;
     }
     public Person getPerson(long personId){
@@ -189,6 +191,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     cursor.getInt(cursor.getColumnIndexOrThrow("IS_IMPORTANT"))==1,
                     cursor.getInt(cursor.getColumnIndexOrThrow("IS_SPAMMER"))==1);
         }
+        
         return null;
     }
 
@@ -203,6 +206,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     (cursor.getInt(cursor.getColumnIndexOrThrow("STORE_MESSAGES"))==1),
                     cursor.getInt(cursor.getColumnIndexOrThrow("PRIORITY")));
         }
+        
         return null;
     }
 
@@ -217,6 +221,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         cursor.getLong(cursor.getColumnIndexOrThrow("PERSON_ID"))));
             } while (cursor.moveToNext());
         }
+        
         return arrayList;
     }
     public ArrayList<Group> getGroups() {
@@ -233,6 +238,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         cursor.getInt(cursor.getColumnIndexOrThrow("PRIORITY"))));
             } while (cursor.moveToNext());
         }
+        
         return arrayList;
     }
 
@@ -242,6 +248,7 @@ public class DbHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
             return cursor.getInt(cursor.getColumnIndexOrThrow("STORE_MESSAGES")) == 1;
         }
+        
         return true;
     }
 
@@ -258,6 +265,24 @@ public class DbHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow("TIMESTAMP"))));
             } while (cursor.moveToNext());
         }
+        
+        return arrayList;
+    }
+
+    public ArrayList<Message> getPersonMessages(long personId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Message> arrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM MESSAGES WHERE PERSON_ID = ?", new String[]{String.valueOf(personId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                arrayList.add(new Message(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("MESSAGE")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("GROUP_ID")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("PERSON_ID")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("TIMESTAMP"))));
+            } while (cursor.moveToNext());
+        }
+        
         return arrayList;
     }
 
@@ -285,6 +310,7 @@ public class DbHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow("TIMESTAMP"))));
             } while (cursor.moveToNext());
         }
+        
         return arrayList;
     }
     public ArrayList<Important> getImportantMessages() {
@@ -293,20 +319,73 @@ public class DbHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM IMPORTANT", null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                arrayList.add(new Important(cursor.getInt(cursor.getColumnIndexOrThrow("_id"))));
+                arrayList.add(new Important(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("MESSAGE_ID"))));
+
             } while (cursor.moveToNext());
         }
+        
         return arrayList;
     }
+    public ArrayList<Person> getImportantPeople() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Person> arrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM PERSON WHERE IS_IMPORTANT=1", null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                arrayList.add(new Person(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("NAME")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("IS_IMPORTANT")) == 1,
+                        cursor.getInt(cursor.getColumnIndexOrThrow("IS_SPAMMER")) == 1
+                ));
+            } while (cursor.moveToNext());
+        }
+        
+        return arrayList;
+    }
+    public ArrayList<Person> getSpammers() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Person> arrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM PERSON WHERE IS_SPAMMER=1", null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                arrayList.add(new Person(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("NAME")),
+                        cursor.getInt(cursor.getColumnIndexOrThrow("IS_IMPORTANT")) == 1,
+                        cursor.getInt(cursor.getColumnIndexOrThrow("IS_SPAMMER")) == 1
+                ));
+            } while (cursor.moveToNext());
+        }
+        
+        return arrayList;
+    }
+
     public ArrayList<Spam> getSpamMessages() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Spam> arrayList = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM SPAM", null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                arrayList.add(new Spam(cursor.getInt(cursor.getColumnIndexOrThrow("_id"))));
+                arrayList.add(new Spam(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("MESSAGE_ID"))));
             } while (cursor.moveToNext());
         }
+        
         return arrayList;
+    }
+    public String getGroupLastMessage(long groupId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM MESSAGES WHERE GROUP_ID = ?", new String[]{String.valueOf(groupId)});
+        if (cursor != null && cursor.moveToLast()) {
+            return cursor.getString(cursor.getColumnIndexOrThrow("MESSAGE"));
+        }
+        return "No Messages!";
+    }
+
+    public boolean resetImportant() {
+
+        return false;
     }
 }

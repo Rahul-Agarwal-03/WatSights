@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:id="@+id/imageView"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_marginStart="@dimen/margin_small"-->
+<!--        android:layout_marginTop="@dimen/margin_small"-->
+<!--        android:src="@drawable/ic_bot"/>-->
+<!--    <TextView-->
+<!--        android:id="@+id/bot"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_marginTop="@dimen/margin_small"-->
+<!--        android:layout_marginStart="@dimen/margin_small"-->
+<!--        android:textAppearance="@style/body1"-->
+<!--        android:text="WatsBot"/>-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:contentPadding="8dp"
+        app:cardElevation="2dp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_alignParentStart="true"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:id="@+id/from_bot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textAppearance="@style/body2"
+            android:text="Hi! I am WatsBot. How can i help you?  "/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:contentPadding="8dp"
+        app:cardElevation="2dp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_alignParentEnd="true"
+        app:cardCornerRadius="10dp">
+        <TextView
+            android:id="@+id/from_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/body2"
+            android:text="Hi Watsbot. What can you do? "/>
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

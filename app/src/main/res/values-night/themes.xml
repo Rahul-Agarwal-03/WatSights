@@ -10,9 +10,10 @@
         <item name="colorSecondaryVariant">@color/colorAccent</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="fontFamily">@font/oswald</item>
-        <item name="android:colorBackground">#111111</item>
+        <item name="android:colorBackground">#333e50</item>
+        <item name="actionBarItemBackground">@color/card_background_color</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/black_1</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#333e50</item>
         <item name="android:navigationBarColor">@color/black</item>
         <!-- Customize your theme here. -->
     </style>

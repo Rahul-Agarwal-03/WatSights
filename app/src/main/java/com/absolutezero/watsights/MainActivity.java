@@ -7,11 +7,13 @@ import androidx.core.content.ContextCompat;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.absolutezero.watsights.Models.Important;
+import com.absolutezero.watsights.ChatBot.ChatBotActivity;
 import com.absolutezero.watsights.Models.Message;
+import com.absolutezero.watsights.Models.Spam;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -19,18 +21,15 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
-import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     Button b0;
-    CardView c1,c2,c3,c4;
+    CardView c1, c2, c3, c4, c5, c6;
     DbHelper dbHelper;
     Context context = this;
     PieChart pieChart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +39,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         c2 = findViewById(R.id.c2);
         c3 = findViewById(R.id.c3);
         c4 = findViewById(R.id.c4);
+        c5 = findViewById(R.id.c5);
+        c6 = findViewById(R.id.c6);
         pieChart = findViewById(R.id.pieChart);
         c1.setOnClickListener(this);
         c2.setOnClickListener(this);
         c3.setOnClickListener(this);
         c4.setOnClickListener(this);
+        c5.setOnClickListener(this);
+        c6.setOnClickListener(this);
+
         dbHelper = new DbHelper(context);
         setPieChart();
         findViewById(R.id.floatingActionButton).setOnClickListener(new View.OnClickListener() {
@@ -57,13 +61,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setPieChart() {
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(ContextCompat.getColor(this, android.R.color.holo_red_dark));
-        colors.add(ContextCompat.getColor(this, android.R.color.holo_orange_dark));
-        colors.add(ContextCompat.getColor(this, android.R.color.holo_green_dark));
+        colors.add(ContextCompat.getColor(this, R.color.orange));
+        colors.add(ContextCompat.getColor(this, R.color.red));
+        colors.add(ContextCompat.getColor(this, R.color.pie_green_3));
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         int imp = (dbHelper.getImportantMessages() != null) ? dbHelper.getImportantMessages().size() : 0;
-        int spa = (dbHelper.getSpamMessages() != null) ? dbHelper.getImportantMessages().size() : 0;
-        int tot = (dbHelper.getMessages() != null) ? dbHelper.getImportantMessages().size() : 0;
+        int spa = (dbHelper.getSpamMessages() != null) ? dbHelper.getSpamMessages().size() : 0;
+        for (Spam spam : dbHelper.getSpamMessages()) {
+            Message message = dbHelper.getMessage(spam.getMessageId());
+            Log.d(TAG, "setPieChart() returned: " + message.getMessage());
+        }
+        int tot = (dbHelper.getMessages() != null) ? dbHelper.getMessages().size() : 0;
         int other = tot - (imp + spa);
         entries.add(new PieEntry(imp, "Important"));
         entries.add(new PieEntry(spa, "Spam"));
@@ -87,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pieChart.animateY(1000);
 //        pieOrders.setEntryLabelColor(Color.BLACK);
     }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -97,6 +106,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.c2:
                 startActivity(new Intent(this, SendMessageActivity.class));
+                break;
+            case R.id.c3:
+                startActivity(new Intent(this, SendMessageActivity.class));
+                break;
+            case R.id.c4:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            case R.id.c5:
+                startActivity(new Intent(this, ViewImportantPeopleActivity.class));
+                break;
+            case R.id.c6:
+                startActivity(new Intent(this, ChatBotActivity.class));
+                break;
         }
     }
 }

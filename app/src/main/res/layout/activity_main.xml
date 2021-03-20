@@ -4,25 +4,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/AppBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-    </com.google.android.material.appbar.AppBarLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AppBarLayout">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,8 +64,10 @@
                 android:id="@+id/c0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="15dp"                app:cardCornerRadius="20dp"
-                app:cardElevation="5dp"
+                android:layout_marginHorizontal="15dp"
+                app:cardBackgroundColor="@color/card_background_color"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
                 app:contentPadding="10dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,8 +79,8 @@
                         android:layout_width="200dp"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintDimensionRatio="1"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -113,15 +104,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:orientation="horizontal">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:orientation="vertical">
 
 
@@ -129,8 +122,10 @@
                         android:id="@+id/c1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        app:cardCornerRadius="20dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginVertical="@dimen/margin_medium"
+                        app:cardBackgroundColor="@color/card_background_color"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:contentPadding="20dp">
 
@@ -144,7 +139,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_chat_24" />
+                                android:src="@drawable/ic_whatsapp" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -160,8 +155,9 @@
                         android:id="@+id/c5"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        app:cardCornerRadius="20dp"
+                        android:layout_margin="10dp"
+                        app:cardBackgroundColor="@color/card_background_color"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:contentPadding="20dp">
 
@@ -175,23 +171,24 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_chat_24" />
+                                android:src="@drawable/ic_crown" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Messages from VIP"
+                                android:text="Elite Gang"
                                 android:textAlignment="center"
                                 android:textAppearance="@style/heading2" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/c2"
+                        android:id="@+id/c6"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        app:cardCornerRadius="20dp"
+                        android:layout_margin="10dp"
+                        app:cardBackgroundColor="@color/card_background_color"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:contentPadding="20dp">
 
@@ -205,12 +202,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_whatsapp_48" />
+                                android:src="@drawable/ic_bot" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Direct Message"
+                                android:text="Contact Us"
                                 android:textAlignment="center"
                                 android:textAppearance="@style/heading2" />
                         </LinearLayout>
@@ -228,8 +225,10 @@
                         android:id="@+id/c3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        app:cardCornerRadius="20dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginStart="@dimen/margin_small"
+                        app:cardBackgroundColor="@color/card_background_color"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:contentPadding="20dp">
 
@@ -243,7 +242,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_baseline_push_pin_24" />
+                                android:src="@drawable/ic_push_pin" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -255,13 +254,13 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/c6"
+                        android:id="@+id/c2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        app:cardCornerRadius="20dp"
+                        android:layout_margin="10dp"
+                        app:cardBackgroundColor="@color/card_background_color"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:contentPadding="20dp">
 
@@ -273,25 +272,27 @@
 
                             <ImageView
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_baseline_info_24" />
+                                android:src="@drawable/ic_direct_chat" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Contact Us"
+                                android:text="Direct Message"
                                 android:textAlignment="center"
                                 android:textAppearance="@style/heading2" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/c4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        app:cardCornerRadius="20dp"
+                        android:layout_margin="10dp"
+                        app:cardBackgroundColor="@color/card_background_color"
+                        app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:contentPadding="20dp">
 
@@ -305,7 +306,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_baseline_settings_24" />
+                                android:src="@drawable/ic_settings" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -333,5 +334,5 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_question_mark" />
+        app:srcCompat="@drawable/ic_baseline_info_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

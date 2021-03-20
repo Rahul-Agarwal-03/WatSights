@@ -16,13 +16,11 @@ public class NotificationService extends NotificationListenerService {
     private static final String TAG = "NotificationService";
     private static final String WHATSAPP_PACKAGE = "com.whatsapp";
     Context context ;
-    DbHelper dbHelper;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        dbHelper = new DbHelper(context);
     }
     @Override
     public void onListenerConnected() {
@@ -41,9 +39,9 @@ public class NotificationService extends NotificationListenerService {
 
         String from = bundle.getString(NotificationCompat.EXTRA_TITLE);
         String message = bundle.getString(NotificationCompat.EXTRA_TEXT);
-
         Log.i(TAG, "From: " + from);
         Log.i(TAG, "Message: " + message);
+        new AddNotification(context).execute(message, from);
     }
 
     @Override
@@ -55,13 +53,20 @@ public class NotificationService extends NotificationListenerService {
         Bundle bundle = notification.extras;
         String from = bundle.getString(NotificationCompat.EXTRA_TITLE);
         String message = bundle.getString(NotificationCompat.EXTRA_TEXT);
-        new AddNotification().execute(message,from);
     }
 
     class AddNotification extends AsyncTask<String,Void,Void>{
+        DbHelper dbHelper;
+        Context context;
+
+        public AddNotification(Context context) {
+            this.context = context;
+            dbHelper = new DbHelper(context);
+        }
 
         @Override
         protected Void doInBackground(String... strings) {
+            dbHelper = new DbHelper(context);
             Log.d(TAG, "doInBackground() returned: message => " + strings[0]);
             Log.d(TAG, "doInBackground() returned: from =>" + strings[1]);
             if (strings[1].contains(":")) {
@@ -76,7 +81,13 @@ public class NotificationService extends NotificationListenerService {
                 long personId = dbHelper.getPersonId(from);
                 dbHelper.addMember(groupId, personId);
                 if (dbHelper.storeGroupMessages(groupId)) {
-                    dbHelper.addMessage(groupId, personId, strings[0], new Date().toString());    
+                    if (dbHelper.getGroupLastMessage(groupId) != null){
+                        if(!dbHelper.getGroupLastMessage(groupId).equalsIgnoreCase(strings[0])) {
+                            dbHelper.addMessage(groupId, personId, strings[0], new Date().toString());
+                        }
+                    } else {
+                        Log.i(TAG, "doInBackground: same message notification");
+                    }
                 }
                 else{
                     Log.d(TAG, "doInBackground: Group Messages not stored");
@@ -86,6 +97,7 @@ public class NotificationService extends NotificationListenerService {
                 long personId = dbHelper.getPersonId(strings[1]);
                 dbHelper.addMessage(0, personId, strings[0], new Date().toString());
             }
+            dbHelper.close();
             return null;
         }
     }

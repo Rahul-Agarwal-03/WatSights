@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <color name="card_background_color">#404b60</color>
+   <color name="toolbar">#333e50</color>
+   <color name="colorAccent">#dc993e</color>
+
+
+</resources>

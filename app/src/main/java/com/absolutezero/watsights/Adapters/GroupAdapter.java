@@ -51,7 +51,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
         holder.number.setText(String.valueOf(unread));
         //TODO
         ArrayList<Message> arrayList = dbHelper.getGroupMessages(group.getId());
-        holder.summary.setText(arrayList.get(arrayList.size() - 1).getMessage());
+        holder.summary.setText((dbHelper.getGroupLastMessage(group.getId())));
     }
 
     @Override

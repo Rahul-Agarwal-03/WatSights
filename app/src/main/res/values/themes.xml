@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.WatSights" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#bdd358</item>
+        <item name="colorPrimary">#8DC26F</item>
         <item name="colorPrimaryVariant">#DEFFFFFF</item>
         <item name="colorOnPrimary">#212121</item>
         <!-- Secondary brand color. -->
@@ -10,12 +10,17 @@
         <item name="colorSecondaryVariant">#7f6a93</item>
         <item name="colorOnSecondary">#2D2D2A</item>
         <item name="fontFamily">@font/oswald</item>
-        <item name="android:colorBackground">#DDFFFFFF</item>
-        <item name="android:windowBackground">#FCFCFC</item>
+        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="android:windowBackground">#FFFFFF</item>
         <!-- Status bar color. -->
         <item name="android:navigationBarColor">@color/black_2</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
         <!-- Customize your theme here. -->
+    </style>
+    <style name="logo_text" parent="TextAppearance.AppCompat.Headline">
+        <item name="fontFamily">@font/oswald</item>
+        <item name="android:fontFamily">@font/abril_fatface</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
     <style name="heading1" parent="TextAppearance.AppCompat.Headline">
@@ -23,6 +28,8 @@
         <item name="android:fontFamily">@font/oswald</item>
         <item name="android:textSize">22sp</item>
     </style>
+
+
 
     <style name="heading2" parent="TextAppearance.AppCompat.Headline">
         <item name="fontFamily">@font/oswald</item>

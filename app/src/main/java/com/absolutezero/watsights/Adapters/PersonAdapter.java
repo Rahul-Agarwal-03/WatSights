@@ -1,7 +1,6 @@
 package com.absolutezero.watsights.Adapters;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absolutezero.watsights.DbHelper;
-import com.absolutezero.watsights.Models.Member;
 import com.absolutezero.watsights.Models.Person;
 import com.absolutezero.watsights.R;
 import com.google.android.material.chip.Chip;
@@ -22,12 +19,12 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberViewHolder> {
+public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonViewHolder> {
     Context context;
-    ArrayList<Member> arrayList;
+    ArrayList<Person> arrayList;
     DbHelper dbHelper;
 
-    public MemberAdapter(Context context, ArrayList<Member> arrayList) {
+    public PersonAdapter(Context context, ArrayList<Person> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
         dbHelper = new DbHelper(context);
@@ -35,16 +32,15 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
 
     @NonNull
     @Override
-    public MemberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PersonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.item_group_member, parent, false);
-        return new MemberViewHolder(view);
+        return new PersonViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MemberViewHolder holder, int position) {
-        Member member = arrayList.get(position);
-        Person person = dbHelper.getPerson(member.getPersonId());
+    public void onBindViewHolder(@NonNull PersonViewHolder holder, int position) {
+        Person person = arrayList.get(position);
         holder.name.setText(person.getName());
         if (person.isImportant()) {
             holder.spammer.setVisibility(View.GONE);
@@ -64,11 +60,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         return arrayList.size();
     }
 
-    public class MemberViewHolder extends RecyclerView.ViewHolder {
+    public class PersonViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         CircleImageView icon;
         ImageView important, spammer;
-        public MemberViewHolder(@NonNull View itemView) {
+        public PersonViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             icon = itemView.findViewById(R.id.icon);
