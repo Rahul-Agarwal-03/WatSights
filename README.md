@@ -28,6 +28,7 @@ Team Members :
 
 Github repository link for app:
 [https://github.com/yashkasera/WatSights](https://github.com/yashkasera/WatSights)
+Link2: https://github.com/yashkasera/watsightsweb.github.io
 
 
 
