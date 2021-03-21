@@ -32,13 +32,11 @@
         app:layout_constraintTop_toBottomOf="@+id/appbar">
 
         <ImageView
-            android:id="@+id/imageView5"
             android:layout_width="match_parent"
             android:layout_height="96dp"
             app:srcCompat="@drawable/ic_not_found" />
 
         <TextView
-            android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="No Messages Found!"
