@@ -29,8 +29,6 @@ Team Members :
 Github repository link for app:
 [https://github.com/yashkasera/WatSights](https://github.com/yashkasera/WatSights)
 
-Github repository link for ML:
-[https://github.com/suryaa62/whatsight](https://github.com/suryaa62/whatsight)
 
 
 
