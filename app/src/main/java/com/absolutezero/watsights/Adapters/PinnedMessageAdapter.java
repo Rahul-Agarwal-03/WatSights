@@ -10,20 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absolutezero.watsights.DbHelper;
-import com.absolutezero.watsights.Models.Important;
 import com.absolutezero.watsights.Models.Message;
 import com.absolutezero.watsights.Models.Pinned;
 import com.absolutezero.watsights.R;
 
 import java.util.ArrayList;
 
-public class ImportantMessageAdapter extends RecyclerView.Adapter<ImportantMessageAdapter.ImportantMessageViewHolder> {
+public class PinnedMessageAdapter extends RecyclerView.Adapter<PinnedMessageAdapter.ImportantMessageViewHolder> {
 
     Context context;
-    ArrayList<Important> arrayList;
+    ArrayList<Pinned> arrayList;
     DbHelper dbHelper;
 
-    public ImportantMessageAdapter(Context context, ArrayList<Important> arrayList) {
+    public PinnedMessageAdapter(Context context, ArrayList<Pinned> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
         dbHelper = new DbHelper(context);

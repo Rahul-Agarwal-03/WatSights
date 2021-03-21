@@ -10,20 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.absolutezero.watsights.DbHelper;
-import com.absolutezero.watsights.Models.Important;
 import com.absolutezero.watsights.Models.Message;
-import com.absolutezero.watsights.Models.Pinned;
 import com.absolutezero.watsights.R;
 
 import java.util.ArrayList;
 
-public class ImportantMessageAdapter extends RecyclerView.Adapter<ImportantMessageAdapter.ImportantMessageViewHolder> {
+public class EliteMessageAdapter extends RecyclerView.Adapter<EliteMessageAdapter.ImportantMessageViewHolder> {
 
     Context context;
-    ArrayList<Important> arrayList;
+    ArrayList<Message> arrayList;
     DbHelper dbHelper;
 
-    public ImportantMessageAdapter(Context context, ArrayList<Important> arrayList) {
+    public EliteMessageAdapter(Context context, ArrayList<Message> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
         dbHelper = new DbHelper(context);
@@ -40,17 +38,16 @@ public class ImportantMessageAdapter extends RecyclerView.Adapter<ImportantMessa
 
     @Override
     public void onBindViewHolder(@NonNull ImportantMessageViewHolder holder, int position) {
-        Message message = dbHelper.getMessage(arrayList.get(position).getMessageId());
-        if (message.getGroup_id() != 0) {
-            holder.from.setText(dbHelper.getPerson(message.getPerson_id()).getName() +" @ "+ dbHelper.getGroup(message.getGroup_id()).getName());
+        if (arrayList.get(position).getGroup_id() != 0) {
+            holder.from.setText(dbHelper.getGroup(arrayList.get(position).getGroup_id()).getName());
             holder.from.setTextColor(context.getColor(R.color.ic_launcher_background));
         }
         else{
-            holder.from.setText(dbHelper.getPerson(message.getPerson_id()).getName());
+            holder.from.setText("Personal");
             holder.from.setTextColor(context.getColor(R.color.colorAccent));
         }
-        holder.message.setText(message.getMessage());
-        holder.date.setText(message.getTimestamp());
+        holder.message.setText(arrayList.get(position).getMessage());
+        holder.date.setText(arrayList.get(position).getTimestamp());
     }
 
     @Override

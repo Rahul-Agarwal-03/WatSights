@@ -3,23 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--    <de.hdodenhof.circleimageview.CircleImageView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_height="24dp"-->
-<!--        android:layout_width="24dp"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_marginStart="@dimen/margin_small"-->
-<!--        android:layout_marginTop="@dimen/margin_small"-->
-<!--        android:src="@drawable/ic_bot"/>-->
-<!--    <TextView-->
-<!--        android:id="@+id/bot"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_marginTop="@dimen/margin_small"-->
-<!--        android:layout_marginStart="@dimen/margin_small"-->
-<!--        android:textAppearance="@style/body1"-->
-<!--        android:text="WatsBot"/>-->
+
     <androidx.cardview.widget.CardView
         android:id="@+id/bot"
         android:layout_width="wrap_content"
@@ -27,7 +11,7 @@
         app:contentPadding="8dp"
         app:cardElevation="2dp"
         android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_large"
         android:layout_marginBottom="@dimen/margin_small"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/margin_small"

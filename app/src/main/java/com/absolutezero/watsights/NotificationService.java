@@ -41,7 +41,8 @@ public class NotificationService extends NotificationListenerService {
         String message = bundle.getString(NotificationCompat.EXTRA_TEXT);
         Log.i(TAG, "From: " + from);
         Log.i(TAG, "Message: " + message);
-        new AddNotification(context).execute(message, from);
+        if(!from.equalsIgnoreCase("WhatsApp")&&!from.equalsIgnoreCase("WhatsApp Web"))
+            new AddNotification(context).execute(message, from);
     }
 
     @Override
@@ -83,7 +84,10 @@ public class NotificationService extends NotificationListenerService {
                 if (dbHelper.storeGroupMessages(groupId)) {
                     if (dbHelper.getGroupLastMessage(groupId) != null){
                         if(!dbHelper.getGroupLastMessage(groupId).equalsIgnoreCase(strings[0])) {
-                            dbHelper.addMessage(groupId, personId, strings[0], new Date().toString());
+                            long id = dbHelper.addMessage(groupId, personId, strings[0], new Date().toString());
+                            if(isImportant(strings[0])){
+                                dbHelper.addImportantMessage(id);
+                            }
                         }
                     } else {
                         Log.i(TAG, "doInBackground: same message notification");
@@ -95,10 +99,22 @@ public class NotificationService extends NotificationListenerService {
             }
             else{
                 long personId = dbHelper.getPersonId(strings[1]);
-                dbHelper.addMessage(0, personId, strings[0], new Date().toString());
+                if (dbHelper.getPersonLastMessage(personId) != null){
+                    if(!dbHelper.getGroupLastMessage(personId).equalsIgnoreCase(strings[0])) {
+                        long id = dbHelper.addMessage(0, personId, strings[0], new Date().toString());
+                        if (isImportant(strings[0])) {
+                            dbHelper.addImportantMessage(id);
+                        }
+                    }
+                }
+
             }
             dbHelper.close();
             return null;
+        }
+        boolean isImportant(String message){
+            FilterImportant filterImportant = new FilterImportant(message);
+            return filterImportant.isImportant();
         }
     }
 }

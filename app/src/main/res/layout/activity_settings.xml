@@ -53,38 +53,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_weight="1"
-                    app:cardBackgroundColor="@color/card_background_color"
-                    app:cardCornerRadius="10dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:src="@color/black_1" />
-
-                        <RadioButton
-                            android:id="@+id/r1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:minHeight="24dp"
-                            android:text="Dark Theme" />
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/c2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="8dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
@@ -103,11 +71,45 @@
                             android:src="@color/white" />
 
                         <RadioButton
+                            android:id="@+id/r1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:minHeight="24dp"
+                            android:text="Light Theme" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/c2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/card_background_color"
+                    app:cardCornerRadius="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@color/black_1" />
+
+                        <RadioButton
                             android:id="@+id/r2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:clickable="false"
                             android:minHeight="24dp"
-                            android:text="Light Theme" />
+                            android:text="Dark Theme" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -138,6 +140,7 @@
                             android:id="@+id/r3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:clickable="false"
                             android:minHeight="24dp"
                             android:text="System Default" />
                     </LinearLayout>
@@ -161,12 +164,16 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginHorizontal="@dimen/margin_small"
                 android:textAppearance="@style/heading2" />
+
             <Switch
+                android:id="@+id/biometrics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enable Biometrics"
                 android:layout_marginHorizontal="8dp"
-                android:textAppearance="@style/subtitle1"/>
+                android:layout_marginVertical="4dp"
+                android:fontFamily="@font/oswald"
+                android:text="Enable Biometrics"
+                android:textAppearance="@style/subtitle1" />
 
             <View
                 android:id="@+id/divider4"
@@ -194,6 +201,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="resetImportant"
                 android:text="Reset All Elite Members" />
             <View
                 android:id="@+id/divider5"
@@ -221,6 +229,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="resetSpammers"
                 android:text="Reset All Spammers" />
             <View
                 android:id="@+id/divider6"

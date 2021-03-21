@@ -2,7 +2,6 @@ package com.absolutezero.watsights;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,52 +12,47 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.absolutezero.watsights.Adapters.GroupAdapter;
 import com.absolutezero.watsights.Adapters.ImportantMessageAdapter;
-import com.absolutezero.watsights.Models.Group;
+import com.absolutezero.watsights.Adapters.PersonAdapter;
+import com.absolutezero.watsights.Models.Person;
 
 import java.util.ArrayList;
 
-public class ViewGroupsActivity extends AppCompatActivity {
+public class ViewElitePeopleActivity extends AppCompatActivity {
+    private static final String TAG = "ViewImportantPeopleActi";
+    ArrayList<Person> arrayList;
+    DbHelper dbHelper = new DbHelper(this);
     Context context = this;
-    Toolbar toolbar;
     RecyclerView recyclerView;
-    DbHelper dbHelper;
-    private static final String TAG = "ViewGroupsActivity";
-    ArrayList<Group> arrayList;
-    GroupAdapter groupAdapter;
+    Toolbar toolbar;
     TextView count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_groups);
-        dbHelper = new DbHelper(this);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Elite Members");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.app_name));
         recyclerView = findViewById(R.id.recyclerView);
         count = findViewById(R.id.count);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.app_name));
-        arrayList = dbHelper.getGroups();
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        arrayList = dbHelper.getElitePeople();
         if (arrayList.size() == 0) {
             findViewById(R.id.notFound).setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
         else {
-            groupAdapter = new GroupAdapter(context, arrayList);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(groupAdapter);
+            PersonAdapter personAdapter = new PersonAdapter(context, arrayList);
+            recyclerView.setAdapter(personAdapter);
             count.setText(arrayList.size()+" groups");
             recyclerView.addOnItemTouchListener(new RecyclerTouchListener(context, recyclerView, new ClickListener() {
                 @Override
                 public void onClick(View view, int position) {
-                    Intent intent = new Intent(context, ViewChatsActivity.class);
+                    Intent intent = new Intent(context, ViewEliteMessagesActivity.class);
                     Log.d(TAG, "onLongClick() returned: " + arrayList.get(position).getId());
                     Bundle bundle = new Bundle();
-                    bundle.putLong("group_id",arrayList.get(position).getId());
+                    bundle.putLong("person_id",arrayList.get(position).getId());
                     intent.putExtra("bundle", bundle);
                     startActivity(intent);
                 }

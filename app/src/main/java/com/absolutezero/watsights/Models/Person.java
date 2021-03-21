@@ -3,13 +3,13 @@ package com.absolutezero.watsights.Models;
 public class Person {
     int id;
     String name;
-    boolean isImportant;
+    boolean isElite;
     boolean isSpammer;
 
-    public Person(int id, String name, boolean isImportant, boolean isSpammer) {
+    public Person(int id, String name, boolean isElite, boolean isSpammer) {
         this.id = id;
         this.name = name;
-        this.isImportant = isImportant;
+        this.isElite = isElite;
         this.isSpammer = isSpammer;
     }
 
@@ -25,12 +25,12 @@ public class Person {
         this.name = name;
     }
 
-    public boolean isImportant() {
-        return isImportant;
+    public boolean isElite() {
+        return isElite;
     }
 
-    public void setImportant(boolean important) {
-        isImportant = important;
+    public void setElite(boolean important) {
+        isElite = important;
     }
 
     public boolean isSpammer() {

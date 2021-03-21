@@ -77,7 +77,7 @@ public class ViewGroupInfoActivity extends AppCompatActivity {
                     Member member = dbHelper.getMember(memberId);
                     long personId = member.getPersonId();
                     Log.d(TAG, "onLongClick() returned: personId" + personId);
-                    int checkedItem = dbHelper.isImportant(personId) ? 0 : (dbHelper.isSpammer(personId) ? 1 : 2);
+                    int checkedItem = dbHelper.isElite(personId) ? 0 : (dbHelper.isSpammer(personId) ? 1 : 2);
                     new AlertDialog.Builder(context)
                             .setTitle("Assign a role")
 //                            .setMessage("Messages from members with ELITE status will be displayed separately and with SPAMMER status will be given lesser priority")

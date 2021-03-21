@@ -32,11 +32,38 @@
         app:layout_constraintTop_toBottomOf="@+id/appbar"
         tools:listitem="@layout/item_chat" />
 
+    <LinearLayout
+        android:id="@+id/notFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            app:srcCompat="@drawable/ic_not_found" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Messages Found!"
+            android:textAlignment="center"
+            android:textAppearance="@style/body1" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="10 groups"
+        android:text="0 groups"
         android:textAlignment="center"
         android:textAppearance="@style/subtitle1"
         app:layout_constraintBottom_toBottomOf="parent"

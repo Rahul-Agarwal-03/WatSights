@@ -14,6 +14,7 @@ import com.absolutezero.watsights.Models.Important;
 import com.absolutezero.watsights.Models.Member;
 import com.absolutezero.watsights.Models.Message;
 import com.absolutezero.watsights.Models.Person;
+import com.absolutezero.watsights.Models.Pinned;
 import com.absolutezero.watsights.Models.Spam;
 
 import java.util.ArrayList;
@@ -30,12 +31,13 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE GROUPS(_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME VARCHAR(25),LAST_VIEWED DATE,ICON INTEGER,STORE_MESSAGES INTEGER,PRIORITY INTEGER);");
         db.execSQL("CREATE TABLE CHATS(_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME VARCHAR(25),LAST_VIEWED DATE,ICON INTEGER);");
-//        db.execSQL("CREATE TABLE STATS(_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME VARCHAR(25));");
         db.execSQL("CREATE TABLE MESSAGES(_id INTEGER PRIMARY KEY AUTOINCREMENT,GROUP_ID INTEGER,PERSON_ID INTEGER,MESSAGE VARCHAR(500),TIMESTAMP VARCHAR(15));");
         db.execSQL("CREATE TABLE MEMBERS(_id INTEGER PRIMARY KEY AUTOINCREMENT,GROUP_ID INTEGER,PERSON_ID INTEGER);");
-        db.execSQL("CREATE TABLE PERSON(_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME VARCHAR(500),IS_IMPORTANT INTEGER,IS_SPAMMER INTEGER);");
+        db.execSQL("CREATE TABLE PERSON(_id INTEGER PRIMARY KEY AUTOINCREMENT,NAME VARCHAR(500),IS_ELITE INTEGER,IS_SPAMMER INTEGER);");
+        db.execSQL("CREATE TABLE ELITE(_id INTEGER PRIMARY KEY AUTOINCREMENT,MESSAGE_ID INTEGER);");
         db.execSQL("CREATE TABLE IMPORTANT(_id INTEGER PRIMARY KEY AUTOINCREMENT,MESSAGE_ID INTEGER);");
         db.execSQL("CREATE TABLE SPAM(_id INTEGER PRIMARY KEY AUTOINCREMENT,MESSAGE_ID INTEGER);");
+        db.execSQL("CREATE TABLE PINNED(_id INTEGER PRIMARY KEY AUTOINCREMENT,MESSAGE_ID INTEGER);");
     }
 
     @Override
@@ -86,19 +88,25 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("NAME", name);
-        contentValues.put("IS_IMPORTANT", 0);
+        contentValues.put("IS_ELITE", 0);
         contentValues.put("IS_SPAMMER", 0);
         return db.insert("PERSON", null, contentValues);
     }
 
-    public boolean updatePerson(long personId, int isImportant, int isSpammer) {
+    public boolean updatePerson(long personId, int isElite, int isSpammer) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("IS_IMPORTANT",isImportant);
+        contentValues.put("IS_ELITE",isElite);
         contentValues.put("IS_SPAMMER",isSpammer);
         return db.update("PERSON", contentValues, "_id=?", new String[]{String.valueOf(personId)}) != -1;
     }
-    public long addImportant(long message_id) {
+    public long addElite(long message_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MESSAGE_ID", message_id);
+        return db.insert("ELITE", null, contentValues);
+    }
+    public long addImportantMessage(long message_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("MESSAGE_ID", message_id);
@@ -106,7 +114,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean addMessage(long groupId,long personId, String message, String timestamp) {
+    public long addMessage(long groupId,long personId, String message, String timestamp) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("GROUP_ID", groupId);
@@ -114,20 +122,27 @@ public class DbHelper extends SQLiteOpenHelper {
         contentValues.put("MESSAGE", message);
         contentValues.put("TIMESTAMP", timestamp);
         long messageId = db.insert("MESSAGES", null, contentValues);
-        if (isImportant(personId)) {
-            addImportant(messageId);
+        if (isElite(personId)) {
+            addElite(messageId);
         }
         if (isSpammer(personId)) {
             addSpam(messageId);
         }
-        return messageId != -1;
+        return messageId;
     }
 
-    private long addSpam(long message_id) {
+    public long addSpam(long message_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("MESSAGE_ID", message_id);
         return db.insert("SPAM", null, contentValues);
+    }
+
+    public long addPinned(long message_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("MESSAGE_ID", message_id);
+        return db.insert("PINNED", null, contentValues);
     }
 
     public boolean isMember(long groupId,long personId){
@@ -149,11 +164,11 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return false;
     }
-    public boolean isImportant(long id){
+    public boolean isElite(long id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM PERSON WHERE _id=?", new String[]{String.valueOf(id)});
         if (cursor != null && cursor.moveToFirst()) {
-            return cursor.getInt(cursor.getColumnIndexOrThrow("IS_IMPORTANT")) == 1;
+            return cursor.getInt(cursor.getColumnIndexOrThrow("IS_ELITE")) == 1;
         }
         else{
             return false;
@@ -188,7 +203,7 @@ public class DbHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
             return new Person(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
                     cursor.getString(cursor.getColumnIndexOrThrow("NAME")),
-                    cursor.getInt(cursor.getColumnIndexOrThrow("IS_IMPORTANT"))==1,
+                    cursor.getInt(cursor.getColumnIndexOrThrow("IS_ELITE"))==1,
                     cursor.getInt(cursor.getColumnIndexOrThrow("IS_SPAMMER"))==1);
         }
         
@@ -313,10 +328,10 @@ public class DbHelper extends SQLiteOpenHelper {
         
         return arrayList;
     }
-    public ArrayList<Important> getImportantMessages() {
+    public ArrayList<Important> getEliteMessages() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Important> arrayList = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM IMPORTANT", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM ELITE", null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 arrayList.add(new Important(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
@@ -327,16 +342,16 @@ public class DbHelper extends SQLiteOpenHelper {
         
         return arrayList;
     }
-    public ArrayList<Person> getImportantPeople() {
+    public ArrayList<Person> getElitePeople() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Person> arrayList = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM PERSON WHERE IS_IMPORTANT=1", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM PERSON WHERE IS_ELITE=1", null);
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 arrayList.add(new Person(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
                         cursor.getString(cursor.getColumnIndexOrThrow("NAME")),
-                        cursor.getInt(cursor.getColumnIndexOrThrow("IS_IMPORTANT")) == 1,
+                        cursor.getInt(cursor.getColumnIndexOrThrow("IS_ELITE")) == 1,
                         cursor.getInt(cursor.getColumnIndexOrThrow("IS_SPAMMER")) == 1
                 ));
             } while (cursor.moveToNext());
@@ -353,7 +368,7 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 arrayList.add(new Person(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
                         cursor.getString(cursor.getColumnIndexOrThrow("NAME")),
-                        cursor.getInt(cursor.getColumnIndexOrThrow("IS_IMPORTANT")) == 1,
+                        cursor.getInt(cursor.getColumnIndexOrThrow("IS_ELITE")) == 1,
                         cursor.getInt(cursor.getColumnIndexOrThrow("IS_SPAMMER")) == 1
                 ));
             } while (cursor.moveToNext());
@@ -375,6 +390,23 @@ public class DbHelper extends SQLiteOpenHelper {
         
         return arrayList;
     }
+    public ArrayList<Pinned> getPinnedMessages() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Pinned> arrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM PINNED", null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                arrayList.add(new Pinned(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("MESSAGE_ID"))));
+            } while (cursor.moveToNext());
+        }
+        return arrayList;
+    }
+
+    public boolean removePinned(long pinnedId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("PINNED","_id=?",new String[]{String.valueOf(pinnedId)}) != -1;
+    }
     public String getGroupLastMessage(long groupId){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM MESSAGES WHERE GROUP_ID = ?", new String[]{String.valueOf(groupId)});
@@ -383,9 +415,54 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return "No Messages!";
     }
+    public String getPersonLastMessage(long personId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM MESSAGES WHERE PERSON_ID = ?", new String[]{String.valueOf(personId)});
+        if (cursor != null && cursor.moveToLast()) {
+            return cursor.getString(cursor.getColumnIndexOrThrow("MESSAGE"));
+        }
+        return "No Messages!";
+    }
+    public Pinned getPinnedMessage(long pinnedId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM PINNED WHERE _id = ?", new String[]{String.valueOf(pinnedId)});
+        if (cursor != null && cursor.moveToFirst()) {
+            return new Pinned(cursor.getInt(cursor.getColumnIndexOrThrow("_id")), cursor.getLong(cursor.getColumnIndexOrThrow("MESSAGE_ID")));
+        }
+        return null;
+    }
 
-    public boolean resetImportant() {
+    public boolean resetElite() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("ELITE", null, null) != -1;
+    }
+    public boolean resetSpam() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("SPAM", null, null) != -1;
+    }
 
-        return false;
+    public ArrayList<Important> getImportantMessages() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Important> arrayList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM IMPORTANT", null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                arrayList.add(new Important(cursor.getInt(cursor.getColumnIndexOrThrow("_id")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("MESSAGE_ID"))));
+            } while (cursor.moveToNext());
+        }
+        return arrayList;
+    }
+    public void clearUserData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("GROUPS", null, null);
+        db.delete("CHATS", null, null);
+        db.delete("MESSAGES", null, null);
+        db.delete("MEMBERS", null, null);
+        db.delete("PERSON", null, null);
+        db.delete("ELITE", null, null);
+        db.delete("IMPORTANT", null, null);
+        db.delete("SPAM", null, null);
+        db.delete("PINNED", null, null);
     }
 }

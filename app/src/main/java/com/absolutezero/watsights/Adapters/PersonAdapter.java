@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.absolutezero.watsights.DbHelper;
 import com.absolutezero.watsights.Models.Person;
 import com.absolutezero.watsights.R;
-import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
@@ -42,14 +41,14 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     public void onBindViewHolder(@NonNull PersonViewHolder holder, int position) {
         Person person = arrayList.get(position);
         holder.name.setText(person.getName());
-        if (person.isImportant()) {
+        if (person.isElite()) {
             holder.spammer.setVisibility(View.GONE);
             holder.important.setVisibility(View.VISIBLE);
         }
         if(person.isSpammer()){
             holder.spammer.setVisibility(View.VISIBLE);
             holder.important.setVisibility(View.GONE);
-        } else if (!person.isSpammer() && !person.isImportant()) {
+        } else if (!person.isSpammer() && !person.isElite()) {
             holder.spammer.setVisibility(View.GONE);
             holder.important.setVisibility(View.GONE);
         }

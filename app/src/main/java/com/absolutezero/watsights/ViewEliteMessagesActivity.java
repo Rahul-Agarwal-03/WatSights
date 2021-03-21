@@ -13,29 +13,31 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
-import com.absolutezero.watsights.Adapters.ImportantMessageAdapter;
+import com.absolutezero.watsights.Adapters.EliteMessageAdapter;
 import com.absolutezero.watsights.Adapters.MessageAdapter;
 import com.absolutezero.watsights.Models.Message;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
-public class ViewImportantMessagesActivity extends AppCompatActivity {
+public class ViewEliteMessagesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Toolbar toolbar;
     ArrayList<Message> arrayList;
     DbHelper dbHelper;
     Context context = this;
     long person_id;
-    ImportantMessageAdapter messageAdapter;
+    EliteMessageAdapter messageAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_chats);
         recyclerView = findViewById(R.id.recyclerView);
         toolbar = findViewById(R.id.toolbar);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         dbHelper = new DbHelper(context);
         person_id = getIntent().getBundleExtra("bundle").getLong("person_id");
@@ -48,9 +50,18 @@ public class ViewImportantMessagesActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(dbHelper.getPerson(person_id).getName());
             arrayList = dbHelper.getPersonMessages(person_id);
-            messageAdapter = new ImportantMessageAdapter(context, arrayList);
-            recyclerView.setAdapter(messageAdapter);
-            recyclerView.scrollToPosition(arrayList.size() - 1);
+            if (arrayList.size() == 0) {
+                findViewById(R.id.notFound).setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
+            else {
+                findViewById(R.id.notFound).setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                messageAdapter = new EliteMessageAdapter(context, arrayList);
+                recyclerView.setAdapter(messageAdapter);
+                recyclerView.scrollToPosition(arrayList.size() - 1);
+            }
+
         }
 
     }
